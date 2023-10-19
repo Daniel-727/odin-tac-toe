@@ -11,30 +11,76 @@
   return { stateBoard };
 })(); */
 
-const squares = document.querySelectorAll('[data-id="boardSquare"]');
-
-//IIFE for creating board state
+/* //IIFE for creating board state
 const board = (function () {
   const board = [];
 
   return { board };
+})(); */
+
+interface Player {
+  symbol: string;
+}
+
+interface Move {
+  squareID: number;
+  player: Player;
+}
+
+const state = (function () {
+  // State stores the record of our moves
+  const moves: Move[] = [];
+  return { moves };
 })();
+
+const squares = document.querySelectorAll('[data-id="boardSquare"]');
 
 // Factory function for creating players
 function createPlayer(symbol: string) {
   return { symbol };
 }
 
-let andrew = createPlayer("x");
+const player1 = createPlayer("x");
+const player2 = createPlayer("o");
 
 // Function for making playermove
-const makeMove = (e) => {
-  console.log(e.target);
-  board.board;
+const makeMove = (e: Event, player: Player) => {
+  const square = e.target as HTMLButtonElement;
+  const stringID = square.getAttribute("square-id");
+  const squareID = Number(stringID);
+
+  // Getting previous board
+  /* let prevState = [...state.moves]; */
+  /* const move = {} */
+  state.moves.push({ squareID, player });
+  console.log(state.moves);
 };
 
 squares.forEach((square) => {
   square.addEventListener("click", (e) => {
-    makeMove(e);
+    let currentPlayer = getCurrentPlayer();
+    makeMove(e, currentPlayer);
+    updateDisplay();
   });
 });
+
+const getCurrentPlayer = () => {
+  /* (state.moves.length % 2 === 1) ? return 1 : return 2 */
+
+  if (state.moves.length % 2 === 1) {
+    // If length of moves is odd, then it's player 2's turn
+    return player2;
+  } else {
+    return player1;
+  }
+};
+
+const updateDisplay = () => {
+  state.moves.forEach((move) => {
+    const squareID = move.squareID;
+    const player = move.player;
+    const square = document.querySelector(`[square-id="${squareID}"]`);
+
+    console.log(square);
+  });
+};
