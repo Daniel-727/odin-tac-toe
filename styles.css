@@ -8,8 +8,15 @@ body {
   align-items: center;
 }
 
-.board {
+.boardDisplay {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
+  height: 500px;
+  width: 500px;
+}
+
+.boardSquare {
+  margin: 1rem;
+  background: pink;
 }
