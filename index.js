@@ -27,10 +27,16 @@ var makeMove = function (e, player) {
     var square = e.target;
     var stringID = square.getAttribute("square-id");
     var squareID = Number(stringID);
-    // Getting previous board
-    /* let prevState = [...state.moves]; */
-    /* const move = {} */
-    state.moves.push({ squareID: squareID, player: player });
+    // Check if state already has move, if so, don't update state
+    var result = state.moves.filter(function (move) {
+        if (move.squareID === squareID) {
+            return move;
+        }
+    });
+    if (result.length === 0) {
+        // If result.length > 0, that means there's already a move on that square so don't add another move into state for that square
+        state.moves.push({ squareID: squareID, player: player });
+    }
     console.log(state.moves);
 };
 squares.forEach(function (square) {
@@ -55,6 +61,10 @@ var updateDisplay = function () {
         var squareID = move.squareID;
         var player = move.player;
         var square = document.querySelector("[square-id=\"".concat(squareID, "\"]"));
-        console.log(square);
+        /* console.log(square); */
+        if (!square.hasChildNodes()) {
+            // If square does not have a player's symbol inside then
+            square.innerHTML = "<p class=\"moveIcon\">".concat(player.symbol, "</p>");
+        }
     });
 };

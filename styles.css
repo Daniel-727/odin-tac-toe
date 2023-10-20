@@ -19,4 +19,11 @@ body {
 .boardSquare {
   margin: 1rem;
   background: pink;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.moveIcon {
+  font-size: 5rem;
 }
