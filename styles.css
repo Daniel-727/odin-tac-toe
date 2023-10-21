@@ -6,6 +6,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .boardDisplay {
@@ -26,4 +27,24 @@ body {
 
 .moveIcon {
   font-size: 5rem;
+}
+
+.gameLogistics {
+  margin: 2rem;
+  display: flex;
+  flex-direction: column;
+
+  background: grey;
+  width: 500px;
+}
+
+.gameStatus {
+  margin: 1rem;
+  background: pink;
+  font-size: 3rem;
+}
+
+.resetBtn {
+  margin: 1rem;
+  padding: 1rem;
 }

@@ -32,10 +32,13 @@ const state = (function () {
   const moves: Move[] = [];
   const player1Win = false;
   const player2Win = false;
-  return { moves, player1Win, player2Win };
+  const tie = false;
+  return { moves, player1Win, player2Win, tie };
 })();
 
 const squares = document.querySelectorAll('[data-id="boardSquare"]');
+const resetBtn = document.querySelector('[data-id="resetBtn"]');
+const gameStatus = document.querySelector('[data-id="gameStatus"]');
 
 // Factory function for creating players
 function createPlayer(symbol: string) {
@@ -88,6 +91,14 @@ const updateDisplay = () => {
       square.innerHTML = `<p class="moveIcon">${player.symbol}</p>`;
     }
   });
+
+  if (state.player1Win) {
+    gameStatus.textContent = "Player 1 Wins!";
+  } else if (state.player2Win) {
+    gameStatus.textContent = "Player 2 Wins!";
+  } else if (state.tie) {
+    gameStatus.textContent = "Game is a tie!";
+  }
 };
 
 /* 8 ways to win
@@ -155,12 +166,19 @@ const checkGameStatus = () => {
   }
 
   if (state.moves.length === 9 && !state.player1Win && !state.player2Win) {
-    console.log("game is a tie!");
-  } else if (state.player1Win) {
-    console.log("player 1 wins!");
-  } else if (state.player2Win) {
-    console.log("player 2 wins!");
+    state.tie = true;
   }
+};
+
+const reset = () => {
+  gameStatus.textContent = "";
+  state.moves = [];
+  state.player1Win = false;
+  state.player2Win = false;
+  state.tie = false;
+  squares.forEach((square) => {
+    square.innerHTML = "";
+  });
 };
 
 // Adding event listeners to my board squares
@@ -171,4 +189,8 @@ squares.forEach((square) => {
     checkGameStatus();
     updateDisplay();
   });
+});
+
+resetBtn.addEventListener("click", () => {
+  reset();
 });
